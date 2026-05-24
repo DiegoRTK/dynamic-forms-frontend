@@ -1,0 +1,8 @@
+<div [formGroup]="form" class="mb-3">
+  <label class="form-label">{{ field.label }}</label>
+  <select class="form-select" [formControlName]="field.key">
+    <option value="">Seleccione una opción</option>
+    <option *ngFor="let option of field.options" [ngValue]="option.value">{{ option.label }}</option>
+  </select>
+  <app-validation-message [control]="form.get(field.key)" [label]="field.label" />
+</div>

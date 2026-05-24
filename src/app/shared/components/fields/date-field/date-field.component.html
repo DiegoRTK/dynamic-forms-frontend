@@ -1,0 +1,5 @@
+<div [formGroup]="form" class="mb-3">
+  <label class="form-label">{{ field.label }}</label>
+  <input class="form-control" type="date" [formControlName]="field.key" />
+  <app-validation-message [control]="form.get(field.key)" [label]="field.label" />
+</div>

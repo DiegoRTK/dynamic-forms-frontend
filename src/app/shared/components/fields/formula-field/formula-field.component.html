@@ -1,0 +1,5 @@
+<div [formGroup]="form" class="mb-3">
+  <label class="form-label">{{ field.label }}</label>
+  <input class="form-control readonly-field fw-semibold" type="number" [formControlName]="field.key" readonly />
+  <small class="text-muted" *ngIf="field.formula">Fórmula: {{ field.formula }}</small>
+</div>

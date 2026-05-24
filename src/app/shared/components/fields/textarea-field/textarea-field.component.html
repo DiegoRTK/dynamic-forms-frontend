@@ -1,0 +1,5 @@
+<div [formGroup]="form" class="mb-3">
+  <label class="form-label">{{ field.label }}</label>
+  <textarea class="form-control" rows="4" [placeholder]="field.placeholder" [formControlName]="field.key"></textarea>
+  <app-validation-message [control]="form.get(field.key)" [label]="field.label" />
+</div>

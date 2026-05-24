@@ -1,0 +1,64 @@
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-12 col-xl-10">
+      <div class="mb-4">
+        <span class="badge text-bg-primary mb-2">Angular + NestJS</span>
+        <h1 class="fw-bold mb-1">Gestión de formularios dinámicos</h1>
+        <p class="text-muted mb-0">Renderizado desde JSON, validaciones dinámicas y fórmulas calculadas.</p>
+      </div>
+
+      <div class="alert alert-info" *ngIf="isLoading">Cargando formulario...</div>
+      <div class="alert alert-danger" *ngIf="errorMessage">{{ errorMessage }}</div>
+
+      <form *ngIf="schema && !isLoading" [formGroup]="dynamicForm" (ngSubmit)="submit()" class="card shadow-sm">
+        <div class="card-header bg-white p-4">
+          <h2 class="h4 mb-1">{{ schema.name }}</h2>
+          <p class="text-muted mb-0">{{ schema.description }} · Versión {{ schema.version }}</p>
+        </div>
+
+        <div class="card-body p-4">
+          <section *ngFor="let section of schema.sections" class="mb-4">
+            <div class="border-bottom pb-2 mb-3">
+              <h3 class="h5 mb-1">{{ section.title }}</h3>
+              <p class="text-muted mb-0" *ngIf="section.description">{{ section.description }}</p>
+            </div>
+
+            <div class="row">
+              <ng-container *ngFor="let field of section.fields">
+                <div [ngClass]="field.cssClass || 'col-12'">
+                  <ng-container [ngSwitch]="field.type">
+                    <app-text-field *ngSwitchCase="'text'" [field]="field" [form]="dynamicForm" />
+                    <app-number-field *ngSwitchCase="'number'" [field]="field" [form]="dynamicForm" />
+                    <app-email-field *ngSwitchCase="'email'" [field]="field" [form]="dynamicForm" />
+                    <app-date-field *ngSwitchCase="'date'" [field]="field" [form]="dynamicForm" />
+                    <app-select-field *ngSwitchCase="'select'" [field]="field" [form]="dynamicForm" />
+                    <app-textarea-field *ngSwitchCase="'textarea'" [field]="field" [form]="dynamicForm" />
+                    <app-formula-field *ngSwitchCase="'formula'" [field]="field" [form]="dynamicForm" />
+
+                    <div *ngSwitchDefault class="alert alert-warning">
+                      Tipo de campo no soportado: {{ field.type }}
+                    </div>
+                  </ng-container>
+                </div>
+              </ng-container>
+            </div>
+          </section>
+        </div>
+
+        <div class="card-footer bg-white p-4 d-flex gap-2 justify-content-end">
+          <button class="btn btn-outline-secondary" type="button" (click)="resetForm()">Limpiar</button>
+          <button class="btn btn-primary" type="submit">Guardar formulario</button>
+        </div>
+      </form>
+
+      <div class="card shadow-sm mt-4" *ngIf="submittedData">
+        <div class="card-header bg-white">
+          <h2 class="h5 mb-0">Datos enviados</h2>
+        </div>
+        <div class="card-body">
+          <pre class="mb-0">{{ submittedData | json }}</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

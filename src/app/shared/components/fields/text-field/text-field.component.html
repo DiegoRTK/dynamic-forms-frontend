@@ -1,0 +1,6 @@
+<div [formGroup]="form" class="mb-3">
+  <label class="form-label">{{ field.label }}</label>
+  <input class="form-control" type="text" [placeholder]="field.placeholder" [formControlName]="field.key" />
+  <small class="text-muted" *ngIf="field.description">{{ field.description }}</small>
+  <app-validation-message [control]="form.get(field.key)" [label]="field.label" />
+</div>
